@@ -1,9 +1,4 @@
-from dataclasses import dataclass
-
-
-@dataclass
-class Config:
-    num_samples: int = 1000
+from picarlo.sim import Config
 
 
 def main():

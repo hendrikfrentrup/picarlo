@@ -17,8 +17,19 @@ build-backend = "hatchling.build"
 
 [tool.uv]
 dev-dependencies = [
+    "jupyter>=1.1.1",
     "pyright>=1.1.388",
     "pytest>=8.3.3",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "UP",
+    "B",
+    "SIM",
+    "I",
 ]
 
 [tool.pyright]

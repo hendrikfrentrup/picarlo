@@ -1,10 +1,11 @@
 import pytest
+
 from picarlo.sim import Config, stringify_the_float
 
 
 def test_config():
     config = Config()
-    assert config.num_samples == 1000000
+    assert config.num_samples == 10000000
 
 
 @pytest.mark.parametrize(

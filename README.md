@@ -1,5 +1,9 @@
 # calculating pi with modern tooling
 
+[![image](https://img.shields.io/pypi/v/picarlo)](https://pypi.org/project/picarlo/)
+[![image](https://img.shields.io/pypi/l/picarlo)](https://pypi.org/project/picarlo/)
+[![image](https://img.shields.io/pypi/pyversions/picarlo)](https://pypi.org/project/picarlo/)
+
 We need a few things:
 1. a CLI tool to specify the number of iterations and the number of cores it runs on:
 `picarlo --cores 4 --iterations 10000`

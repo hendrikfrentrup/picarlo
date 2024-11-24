@@ -1,8 +1,29 @@
+import multiprocessing
 import random
+import time
 from dataclasses import dataclass
+
+from loguru import logger
 
 
 def monte_carlo_pi(num_samples: int) -> float:
+    """
+    Estimate the value of Pi using the Monte Carlo method.
+
+    This function generates random points within a unit square and counts how many fall within the unit circle.
+    The ratio of points inside the circle to the total number of points is used to estimate Pi.
+
+    Args:
+        num_samples (int): The number of random points to generate.
+
+    Returns:
+        float: The estimated value of Pi.
+
+    Logs:
+        The runtime of the function in seconds.
+    """  # noqa: E501
+    start_time = time.time()
+
     in_circle_count = 0
     in_square_count = 0
     for _ in range(num_samples):
@@ -11,7 +32,21 @@ def monte_carlo_pi(num_samples: int) -> float:
         if x**2 + y**2 <= 1:
             in_circle_count += 1
         in_square_count += 1
+
+    end_time = time.time()
+    logger.info(f"Runtime: {end_time - start_time:.2f} seconds")
+
     return 4 * in_circle_count / in_square_count
+
+
+def monte_carlo_pi_parallel(num_samples: int, num_processes: int) -> float:
+    # get # of core and other info about mutliprocessing
+    pool = multiprocessing.Pool(processes=num_processes)
+    results = pool.map(monte_carlo_pi, [num_samples] * num_processes)
+    pool.close()
+    pool.join()
+
+    return sum(results) / num_processes
 
 
 @dataclass

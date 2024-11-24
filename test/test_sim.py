@@ -1,9 +1,20 @@
 import pytest
 
-from picarlo.sim import Config, stringify_the_float
+from picarlo.sim import (
+    Config,
+    monte_carlo_pi,
+    monte_carlo_pi_parallel,
+    stringify_the_float,
+)
 
 
 def test_config():
+    """
+    Test the configuration settings.
+
+    This test verifies that the default number of samples in the configuration
+    is set to 10,000,000.
+    """
     config = Config()
     assert config.num_samples == 10000000
 
@@ -21,4 +32,47 @@ def test_config():
     ],
 )
 def test_stringify_the_float(input, expected):
+    """
+    Test the stringify_the_float function.
+
+    Args:
+        input (float): The input float value to be stringified.
+        expected (str): The expected string representation of the input float.
+
+    Asserts:
+        The function asserts that the output of stringify_the_float(input)
+        matches the expected string representation.
+    """
     assert stringify_the_float(input) == expected
+
+
+def test_monte_carlo_pi():
+    """
+    Test the monte_carlo_pi function to ensure it returns a value
+    within the expected range for a large number of iterations.
+
+    This test runs the monte_carlo_pi function with 1,000,000 iterations
+    and asserts that the result is between 3.1 and 3.2, which is a reasonable
+    approximation of the value of Pi.
+
+    Raises:
+        AssertionError: If the result is not within the expected range.
+    """
+    result = monte_carlo_pi(1000000)
+    assert 3.1 < result < 3.2
+
+
+def test_monte_carlo_pi_parallel():
+    """
+    Test the monte_carlo_pi_parallel function to ensure it returns a value
+    within the expected range for a large number of iterations and processes.
+
+    This test runs the monte_carlo_pi_parallel function with 1,000,000 iterations
+    and 4 processes, and asserts that the result is between 3.1 and 3.2, which is
+    a reasonable approximation of the value of Pi.
+
+    Raises:
+        AssertionError: If the result is not within the expected range.
+    """
+    result = monte_carlo_pi_parallel(250000, 4)
+    assert 3.1 < result < 3.2

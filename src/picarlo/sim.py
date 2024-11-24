@@ -40,7 +40,23 @@ def monte_carlo_pi(num_samples: int) -> float:
 
 
 def monte_carlo_pi_parallel(num_samples: int, num_processes: int) -> float:
-    # get # of core and other info about mutliprocessing
+    """
+    Estimate the value of Pi using the Monte Carlo method in parallel.
+
+    This function divides the task of estimating Pi into multiple processes
+    to take advantage of multiple CPU cores, thereby speeding up the computation.
+
+    Args:
+        num_samples (int): The number of random samples to generate in each process.
+        num_processes (int): The number of processes to use for parallel computation.
+
+    Returns:
+        float: The estimated value of Pi.
+    """
+    # TODO: get # of core and other info about mutliprocessing
+    num_cores = multiprocessing.cpu_count()
+
+    logger.info(f"Number of available CPU cores: {num_cores}")
     pool = multiprocessing.Pool(processes=num_processes)
     results = pool.map(monte_carlo_pi, [num_samples] * num_processes)
     pool.close()

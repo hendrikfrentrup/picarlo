@@ -38,6 +38,11 @@ We need a few things:
 2. create docs from docstrings
 3. calculate test coverage
 4. tracing
+5. [server-sent event via starlette](https://github.com/sysid/sse-starlette)
+
+## more ambitious stuff
+* parallelism, e.g. [concurrent.futures](https://docs.python.org/3/library/concurrent.futures.html) (see prime number example)
+
 
 ## release preparation
 1. generate changelog from commit messages

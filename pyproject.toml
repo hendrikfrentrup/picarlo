@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "Hendrik Frentrup", email = "hendrik.frentrup@gmail.com" }
 ]
-requires-python = ">=3.12"
+requires-python = ">=3.9"
 dependencies = [
     "click>=8.1.7",
     "loguru>=0.7.2",
@@ -55,3 +55,8 @@ reportMissingTypeStubs = false
 
 [tool.pytest.ini_options]
 pythonpath = "src"
+
+[dependency-groups]
+dev = [
+    "tox>=4.26.0",
+]

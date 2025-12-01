@@ -1,12 +1,6 @@
-import multiprocessing
-
 import typer
 
-from picarlo.sim import (
-    monte_carlo_pi,
-    monte_carlo_pi_parallel,
-    monte_carlo_pi_python,
-)
+from picarlo.sim import monte_carlo_pi, monte_carlo_pi_parallel
 
 app = typer.Typer(help="Monte Carlo π estimator")
 
@@ -19,25 +13,14 @@ def run(
     cores: int = typer.Option(
         1, "--cores", "-c", help="Number of processes (defaults to CPU count)"
     ),
-    parallel: bool = typer.Option(
-        False,
-        "--parallel/--no-parallel",
-        "-p",
-        help="Use multiprocessing (defaults to CPU count)",
-    ),
     use_python: bool = typer.Option(
         False, "--use-python", help="Force use of Python implementation"
     ),
 ):
-    if parallel is True:
-        cores = multiprocessing.cpu_count()
-
-    worker = monte_carlo_pi_python if use_python else monte_carlo_pi
-
-    if cores > 1:
-        pi = monte_carlo_pi_parallel(iterations, cores, worker=worker)
+    if cores == 1:
+        pi = monte_carlo_pi(iterations, force_python=use_python)
     else:
-        pi = worker(iterations)
+        pi = monte_carlo_pi_parallel(iterations, cores, force_python=use_python)
 
     typer.echo(f"π ≈ {pi}")
 

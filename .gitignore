@@ -13,3 +13,7 @@ wheels/
 .ipynb_checkpoints
 
 .tox/
+
+# Rust stuff
+target/
+*.so

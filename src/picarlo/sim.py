@@ -6,9 +6,9 @@ from dataclasses import dataclass
 from loguru import logger
 
 
-def monte_carlo_pi(num_samples: int) -> float:
+def monte_carlo_pi_python(num_samples: int) -> float:
     """
-    Estimate the value of Pi using the Monte Carlo method.
+    Estimate the value of Pi using the Monte Carlo method (Python implementation).
 
     This function generates random points within a unit square and counts how many fall within the unit circle.
     The ratio of points inside the circle to the total number of points is used to estimate Pi.
@@ -39,7 +39,20 @@ def monte_carlo_pi(num_samples: int) -> float:
     return 4 * in_circle_count / in_square_count
 
 
-def monte_carlo_pi_parallel(num_samples: int, num_processes: int) -> float:
+try:
+    from picarlo._picarlo_rust import monte_carlo_pi as monte_carlo_pi_rust
+except ImportError:
+    logger.warning("Rust extension not found.")
+    monte_carlo_pi_rust = None
+
+if monte_carlo_pi_rust:
+    monte_carlo_pi = monte_carlo_pi_rust
+else:
+    logger.warning("Falling back to Python implementation.")
+    monte_carlo_pi = monte_carlo_pi_python
+
+
+def monte_carlo_pi_parallel(num_samples: int, num_processes: int, worker=None) -> float:
     """
     Estimate the value of Pi using the Monte Carlo method in parallel.
 
@@ -49,16 +62,24 @@ def monte_carlo_pi_parallel(num_samples: int, num_processes: int) -> float:
     Args:
         num_samples (int): The number of random samples to generate in each process.
         num_processes (int): The number of processes to use for parallel computation.
+        worker (callable, optional): The function to use for estimation.
+                                     Defaults to monte_carlo_pi.
 
     Returns:
         float: The estimated value of Pi.
     """
+    if worker is None:
+        worker = monte_carlo_pi
+
     # TODO: get # of core and other info about mutliprocessing
     num_cores = multiprocessing.cpu_count()
 
-    logger.info(f"Number of available CPU cores: {num_cores}")
+    logger.info(
+        f"Number of available CPU cores: {num_cores} | ",
+        f"spawning {num_processes} processes.",
+    )
     pool = multiprocessing.Pool(processes=num_processes)
-    results = pool.map(monte_carlo_pi, [num_samples] * num_processes)
+    results = pool.map(worker, [num_samples] * num_processes)
     pool.close()
     pool.join()
 

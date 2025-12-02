@@ -19,11 +19,13 @@ sync: ## Sync project with dev dependencies
 
 install: uv-update sync ## Install/update tooling and dependencies (incl. dev)
 
-lint: ## Run Ruff lint checks
+lint: ## Run lint checks (Ruff & Cargo)
 	$(UV) run ruff check .
+	cargo clippy
 
-format: ## Apply Ruff formatting
+format: ## Apply formatting (Ruff & Cargo)
 	$(UV) run ruff format .
+	cargo fmt
 
 typecheck: ## Run type checks via pyrefly
 	$(UV) run pyrefly check

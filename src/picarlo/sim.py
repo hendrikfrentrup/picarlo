@@ -108,7 +108,7 @@ class Config:
         Default is 10,000,000.
     """
 
-    num_samples: int = 10000000
+    num_samples: int = 10000
 
 
 def hello() -> str:

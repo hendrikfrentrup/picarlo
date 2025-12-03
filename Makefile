@@ -64,7 +64,14 @@ precommit: ## Run all pre-commit hooks (if configured)
 precommit-install: ## Install git hooks for pre-commit
 	$(UV) run pre-commit install
 
+
+docs-serve: ## Serve documentation locally
+	$(UV) run mkdocs serve
+
+docs-build: ## Build documentation site
+	$(UV) run mkdocs build
+
 ## find src -name "*.so" -delete  # Remove compiled extension modules
-clean: ## Remove build and cache artifacts (Python & Rust)
+clean:
 	rm -rf dist build .pytest_cache .ruff_cache .pyrefly_cache *.egg-info target
 	find . -type d -name "__pycache__" -exec rm -rf {} +

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.3] - 2025-12-03
+
+### 🚀 Features
+
+- Publish builds to PyPi via GH workflows
+
 ## [0.4.2] - 2025-12-03
 
 ### 🚀 Features

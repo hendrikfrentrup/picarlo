@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [0.4.2] - 2025-12-03
 
+### 🚀 Features
+
+- Add test coverage, benchmarking, auto changelog
+- Add docs through mkDocs
+
 ### 🐛 Bug Fixes
 
 - Fix IDE imports
+- Removing spurious hello.py
 
 ### 🧪 Testing
 

@@ -1,7 +1,7 @@
 [project]
 name = "picarlo"
-version = "0.4.1"
-description = "calculate pi via the monte carlo method"
+version = "0.4.2"
+description = "Calculate Pi via the Monte Carlo method"
 readme = "README.md"
 authors = [
     { name = "Hendrik Frentrup", email = "hendrik.frentrup@gmail.com" }

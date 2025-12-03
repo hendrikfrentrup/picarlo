@@ -30,8 +30,11 @@ format: ## Apply formatting (Ruff & Cargo)
 typecheck: ## Run type checks via pyrefly
 	$(UV) run pyrefly check
 
-test: ## Run tests
-	$(UV) run pytest -q
+test: ## Run tests with coverage
+	$(UV) run pytest
+
+benchmark: ## Run benchmarks only
+	$(UV) run pytest --benchmark-only
 
 check: lint typecheck test ## Run lint, type checks, and tests
 
@@ -51,6 +54,9 @@ publish: ## Publish package using uv (requires PYPI_TOKEN env var)
 
 install-check: ## Verify the package can be imported in a clean interpreter
 	$(UV) run --with $(PACKAGE) --no-project -- python -c "import $(PACKAGE)"
+
+changelog: ## Generate CHANGELOG.md using git-cliff
+	$(UV) tool run git-cliff --config cliff.toml --output CHANGELOG.md
 
 precommit: ## Run all pre-commit hooks (if configured)
 	$(UV) run pre-commit run --all-files

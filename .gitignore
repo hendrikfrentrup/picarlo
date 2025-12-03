@@ -13,6 +13,7 @@ wheels/
 .ipynb_checkpoints
 
 .tox/
+.coverage
 
 # Rust stuff
 target/

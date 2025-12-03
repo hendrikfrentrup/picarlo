@@ -46,10 +46,19 @@ We need a few things:
 * bulk python version testing through tox
 
 ## Release preparation
-1. Generate changelog from commit messages
-2. Update version indicator
-3. Build package/wheel
-4. Publish assets
+1. **Generate Changelog:** `make changelog` (requires [Conventional Commits](https://www.conventionalcommits.org/))
+2. **Bump Version:** Update `pyproject.toml` and `Cargo.toml`
+3. **Build:** `make build`
+4. **Publish:** `make publish`
+
+## Commit Convention
+This project uses Conventional Commits to automate changelog generation.
+* `feat: ...` for new features
+* `fix: ...` for bug fixes
+* `docs: ...` for documentation
+* `perf: ...` for performance improvements
+
+Example: `git commit -m "feat: add parallel processing support"`
 
 # [vscode extensions](.vscode/extensions.json)
 1. Ruff

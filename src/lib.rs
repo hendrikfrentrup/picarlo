@@ -1,5 +1,5 @@
 use pyo3::prelude::*;
-use rand::Rng;
+use rand::prelude::*;
 use std::time::Instant;
 
 /// Estimate the value of Pi using the Monte Carlo method.
@@ -8,7 +8,7 @@ fn monte_carlo_pi(num_samples: usize) -> f64 {
     let start = Instant::now();
 
     let mut in_circle_count = 0;
-    let mut rng = rand::thread_rng();
+    let mut rng = SmallRng::from_entropy();
 
     for _ in 0..num_samples {
         let x: f64 = rng.gen();

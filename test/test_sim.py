@@ -1,3 +1,5 @@
+import random
+
 import pytest
 
 from picarlo.sim import (
@@ -8,6 +10,15 @@ from picarlo.sim import (
 )
 
 
+@pytest.fixture(autouse=True)
+def seed_random():
+    """
+    Seed the random number generator for deterministic testing.
+    This fixture runs automatically for every test.
+    """
+    random.seed(42)
+
+
 def test_config():
     """
     Test the configuration settings.
@@ -16,7 +27,7 @@ def test_config():
     is set to 10,000,000.
     """
     config = Config()
-    assert config.num_samples == 10000000
+    assert config.num_samples == 10000
 
 
 @pytest.mark.parametrize(

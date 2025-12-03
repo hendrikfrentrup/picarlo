@@ -1,9 +1,9 @@
 {
+    "python.defaultInterpreterPath": "${workspaceFolder}/picarlo/.venv/bin/python",
     "python.testing.pytestArgs": [
         "test"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
-    "python.terminal.activateEnvironment": true,
-    "python.pythonPath": "${workspaceFolder}/picarlo/.venv/bin/python"
+    "python.terminal.activateEnvironment": true
 }

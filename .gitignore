@@ -13,3 +13,9 @@ wheels/
 .ipynb_checkpoints
 
 .tox/
+.coverage
+site/
+
+# Rust stuff
+target/
+*.so

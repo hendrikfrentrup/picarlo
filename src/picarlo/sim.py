@@ -1,3 +1,4 @@
+import functools
 import multiprocessing
 import random
 import time
@@ -6,9 +7,9 @@ from dataclasses import dataclass
 from loguru import logger
 
 
-def monte_carlo_pi(num_samples: int) -> float:
+def monte_carlo_pi_python(num_samples: int) -> float:
     """
-    Estimate the value of Pi using the Monte Carlo method.
+    Estimate the value of Pi using the Monte Carlo method (Python implementation).
 
     This function generates random points within a unit square and counts how many fall within the unit circle.
     The ratio of points inside the circle to the total number of points is used to estimate Pi.
@@ -22,10 +23,9 @@ def monte_carlo_pi(num_samples: int) -> float:
     Logs:
         The runtime of the function in seconds.
     """  # noqa: E501
-    start_time = time.time()
-
     in_circle_count = 0
     in_square_count = 0
+
     for _ in range(num_samples):
         x = random.random()
         y = random.random()
@@ -33,13 +33,37 @@ def monte_carlo_pi(num_samples: int) -> float:
             in_circle_count += 1
         in_square_count += 1
 
-    end_time = time.time()
-    logger.info(f"Runtime: {end_time - start_time:.2f} seconds")
-
     return 4 * in_circle_count / in_square_count
 
 
-def monte_carlo_pi_parallel(num_samples: int, num_processes: int) -> float:
+try:
+    from picarlo._picarlo_rust import monte_carlo_pi as _monte_carlo_pi_rust
+except ImportError:
+    logger.warning("Falling back to Python implementation.")
+    _monte_carlo_pi_rust = None
+
+
+# 2. Define the public function explicitly (picklable)
+def monte_carlo_pi(num_samples: int, force_python: bool = False) -> float:
+    """
+    Estimate Pi using the available backend (Rust or Python).
+    """
+    start = time.time()
+
+    # Use Rust if available AND not forced to use Python
+    if _monte_carlo_pi_rust and not force_python:
+        result = _monte_carlo_pi_rust(num_samples)
+    else:
+        result = monte_carlo_pi_python(num_samples)
+
+    end = time.time()
+    logger.info(f"Runtime: {end - start:.2f} seconds")
+    return result
+
+
+def monte_carlo_pi_parallel(
+    num_samples: int, num_proc: int, force_python: bool = False
+) -> float:
     """
     Estimate the value of Pi using the Monte Carlo method in parallel.
 
@@ -48,7 +72,9 @@ def monte_carlo_pi_parallel(num_samples: int, num_processes: int) -> float:
 
     Args:
         num_samples (int): The number of random samples to generate in each process.
-        num_processes (int): The number of processes to use for parallel computation.
+        num_proc (int): The number of processes to use for parallel computation.
+        worker (callable, optional): The function to use for estimation.
+                                     Defaults to monte_carlo_pi.
 
     Returns:
         float: The estimated value of Pi.
@@ -56,13 +82,20 @@ def monte_carlo_pi_parallel(num_samples: int, num_processes: int) -> float:
     # TODO: get # of core and other info about mutliprocessing
     num_cores = multiprocessing.cpu_count()
 
-    logger.info(f"Number of available CPU cores: {num_cores}")
-    pool = multiprocessing.Pool(processes=num_processes)
-    results = pool.map(monte_carlo_pi, [num_samples] * num_processes)
+    logger.info(
+        f"# of avail. cores: {num_cores} | {num_proc} procs spawned.",
+    )
+
+    # Prepare the worker with the frozen argument
+    worker = functools.partial(monte_carlo_pi, force_python=force_python)
+
+    pool = multiprocessing.Pool(processes=num_proc)
+    # map passes the iterable items as the first argument to 'worker'
+    results = pool.map(worker, [num_samples] * num_proc)
     pool.close()
     pool.join()
 
-    return sum(results) / num_processes
+    return sum(results) / num_proc
 
 
 @dataclass
@@ -75,7 +108,7 @@ class Config:
         Default is 10,000,000.
     """
 
-    num_samples: int = 10000000
+    num_samples: int = 10000
 
 
 def hello() -> str:

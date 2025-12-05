@@ -2,10 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.5] - 2025-12-05
+
+### 🐛 Bug Fixes
+
+- Fix interface type mismatch add typechecks
+
 ## [0.4.4] - 2025-12-05
 
 ### 🚀 Features
-
 
 - Return timing and pop in some print statements for transparency
 
@@ -14,6 +19,7 @@ All notable changes to this project will be documented in this file.
 ### 🚀 Features
 
 - Publish builds to PyPi via GH workflows
+- Return timing and pop in some print statements for transparency
 
 ## [0.4.2] - 2025-12-03
 

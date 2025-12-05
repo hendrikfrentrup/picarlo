@@ -1,6 +1,6 @@
 [project]
 name = "picarlo"
-version = "0.4.4"
+version = "0.4.5"
 description = "Calculate Pi via the Monte Carlo method"
 readme = "README.md"
 authors = [

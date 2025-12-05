@@ -69,7 +69,7 @@ def test_monte_carlo_pi():
     Raises:
         AssertionError: If the result is not within the expected range.
     """
-    result = monte_carlo_pi(1000000)
+    result, _ = monte_carlo_pi(1000000)
     assert 3.1 < result < 3.2
 
 
@@ -85,5 +85,5 @@ def test_monte_carlo_pi_parallel():
     Raises:
         AssertionError: If the result is not within the expected range.
     """
-    result = monte_carlo_pi_parallel(250000, 4)
+    result, _ = monte_carlo_pi_parallel(250000, 4)
     assert 3.1 < result < 3.2

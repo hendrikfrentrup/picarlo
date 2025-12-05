@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.4] - 2025-12-05
+
+### 🚀 Features
+
+
+- Return timing and pop in some print statements for transparency
+
 ## [0.4.3] - 2025-12-03
 
 ### 🚀 Features
